@@ -5,6 +5,7 @@ namespace Ordering.Api.Models
     public class Link
     {
         public Link(
+            string rel,
             string href,
             bool templated = false,
             string type = null,
@@ -12,6 +13,7 @@ namespace Ordering.Api.Models
             string profile = null,
             string title = null)
         {
+            Rel = rel;
             Href = href;
             Templated = templated;
             Type = type;
@@ -19,6 +21,9 @@ namespace Ordering.Api.Models
             Profile = profile;
             Title = title;
         }
+
+        [JsonIgnore]
+        public string Rel { get; private set; }
 
         public string Href { get; private set; }
 
