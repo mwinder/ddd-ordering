@@ -12,20 +12,25 @@ namespace Ordering.Api.Controllers
     {
         public PurchaseOrder Get(int id)
         {
-            var purchaseOrder = new PurchaseOrder(id);
-
-            purchaseOrder.Links.Add("approve", new Link(Url.LinkUri(new { id }, routeName: "Approve")));
-            purchaseOrder.Links.Add("decline", new Link(Url.LinkUri(new { id }, routeName: "Decline")));
-
-            return purchaseOrder;
+            return CreatePurchaseOrder(id);
         }
 
         public IEnumerable<PurchaseOrder> Get()
         {
             for (int id = 1; id <= 20; id++)
             {
-                yield return new PurchaseOrder(id);
+                yield return CreatePurchaseOrder(id);
             }
+        }
+
+        private PurchaseOrder CreatePurchaseOrder(int id)
+        {
+            var purchaseOrder = new PurchaseOrder(id, string.Format("Product-{0:00}", id));
+
+            purchaseOrder.Links.Add("approve", new Link(Url.LinkUri(new {id}, routeName: "Approve")));
+            purchaseOrder.Links.Add("decline", new Link(Url.LinkUri(new {id}, routeName: "Decline")));
+
+            return purchaseOrder;
         }
 
         public HttpResponseMessage Post(PurchaseOrder purchaseOrder)

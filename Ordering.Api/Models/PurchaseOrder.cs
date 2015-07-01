@@ -4,14 +4,15 @@ namespace Ordering.Api.Models
     {
         public PurchaseOrder()
         {
-            
         }
 
-        public PurchaseOrder(int id)
+        public PurchaseOrder(int id, string productCode)
         {
             Id = id;
+            ProductCode = productCode;
         }
 
         public int Id { get; set; }
+        public string ProductCode { get; set; }
     }
 }
