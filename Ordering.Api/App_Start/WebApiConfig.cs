@@ -5,7 +5,7 @@ namespace Ordering.Api
 {
     public static class WebApiConfig
     {
-        public static void Register(HttpConfiguration config)
+        public static void RegisterApi(this HttpConfiguration config)
         {
             // Web API configuration and services
 
