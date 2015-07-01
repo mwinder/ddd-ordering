@@ -11,6 +11,11 @@ namespace Ordering.Api.Models
         }
 
         [JsonProperty("_links")]
-        public IDictionary<string, Link> Links { get; private set; }
+        private IDictionary<string, Link> Links { get; set; }
+
+        public Link Link(string rel, string href)
+        {
+            return Links[rel] = new Link(href);
+        }
     }
 }

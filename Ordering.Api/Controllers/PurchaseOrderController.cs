@@ -27,8 +27,8 @@ namespace Ordering.Api.Controllers
         {
             var purchaseOrder = new PurchaseOrder(id, string.Format("Product-{0:00}", id));
 
-            purchaseOrder.Links.Add("approve", new Link(Url.LinkUri(new {id}, routeName: "Approve")));
-            purchaseOrder.Links.Add("decline", new Link(Url.LinkUri(new {id}, routeName: "Decline")));
+            purchaseOrder.Link("approve", Url.Route("Approve", new { id }));
+            purchaseOrder.Link("decline", Url.Link("Decline", new { id }));
 
             return purchaseOrder;
         }
