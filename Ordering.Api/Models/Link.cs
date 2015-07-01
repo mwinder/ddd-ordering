@@ -4,13 +4,13 @@ namespace Ordering.Api.Models
 {
     public class Link
     {
-        public Link(string rel, Uri href)
+        public Link(Uri href)
         {
-            Rel = rel;
+            //Rel = rel;
             Href = href;
         }
 
-        public string Rel { get; private set; }
+        //public string Rel { get; private set; }
 
         public Uri Href { get; private set; }
     }

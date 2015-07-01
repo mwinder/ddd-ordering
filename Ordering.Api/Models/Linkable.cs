@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 
 namespace Ordering.Api.Models
@@ -8,10 +7,10 @@ namespace Ordering.Api.Models
     {
         protected Linkable()
         {
-            Links = new Collection<Link>();
+            Links = new Dictionary<string, Link>();
         }
 
         [JsonProperty("_links")]
-        public ICollection<Link> Links { get; set; }
+        public IDictionary<string, Link> Links { get; private set; }
     }
 }

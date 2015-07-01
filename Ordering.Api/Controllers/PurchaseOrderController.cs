@@ -2,18 +2,21 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Ordering.Api.Models;
 using Ordering.Api.Helpers;
+using Ordering.Api.Models;
 
 namespace Ordering.Api.Controllers
 {
+    [RoutePrefix("api/PurchaseOrder")]
     public class PurchaseOrderController : ApiController
     {
         public PurchaseOrder Get(int id)
         {
             var purchaseOrder = new PurchaseOrder(id);
-            purchaseOrder.Links.Add(new Link("approve", Url.Link(new { action = "Approve" })));
-            purchaseOrder.Links.Add(new Link("decline", Url.Link(new { action = "Decline" })));
+
+            purchaseOrder.Links.Add("approve", new Link(Url.LinkUri(new { id }, routeName: "Approve")));
+            purchaseOrder.Links.Add("decline", new Link(Url.LinkUri(new { id }, routeName: "Decline")));
+
             return purchaseOrder;
         }
 
@@ -30,11 +33,13 @@ namespace Ordering.Api.Controllers
             return Request.CreateResponse(HttpStatusCode.Created);
         }
 
+        [Route("{id}/Approve", Name = "Approve")]
         public HttpResponseMessage Approve(int id)
         {
             return Request.CreateResponse(HttpStatusCode.Accepted);
         }
 
+        [Route("{id}/Decline", Name = "Decline")]
         public HttpResponseMessage Decline(int id)
         {
             return Request.CreateResponse(HttpStatusCode.Accepted);
