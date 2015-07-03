@@ -103,6 +103,8 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\PurchaseOrderController.cs" />
+    <Compile Include="Domain\Identity.cs" />
+    <Compile Include="Domain\PurchaseOrderAggregate.cs" />
     <Compile Include="Models\Link.cs" />
     <Compile Include="Models\Linkable.cs" />
     <Compile Include="Helpers\LinkHelper.cs" />
