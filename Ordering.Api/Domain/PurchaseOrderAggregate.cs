@@ -16,18 +16,12 @@ namespace Ordering.Api.Domain
 
         public void Submit(string productCode, int quantity)
         {
-            state.Status = PurchaseOrderStatus.Submitted;
-            state.ProductCode = productCode;
-            state.Quantity = quantity;
-
-            Publish(new PurchaseOrderSubmitted { Id = state.Id, ProductCode = productCode, Quantity = quantity });
+            Apply(new PurchaseOrderSubmitted { Id = state.Id, ProductCode = productCode, Quantity = quantity });
         }
 
         public void Approve()
         {
-            state.Status = PurchaseOrderStatus.Approved;
-
-            Publish(new PurchaseOrderApproved { Id = state.Id });
+            Apply(new PurchaseOrderApproved { Id = state.Id });
         }
 
         public void Decline(string reason)
@@ -35,9 +29,30 @@ namespace Ordering.Api.Domain
             if (string.IsNullOrEmpty(reason))
                 throw new InvalidOperationException("Reason is required");
 
+            Apply(new PurchaseOrderDeclined { Id = state.Id, Reason = reason });
+        }
+
+        private void Apply(PurchaseOrderSubmitted purchaseOrderSubmitted)
+        {
+            state.Status = PurchaseOrderStatus.Submitted;
+            state.ProductCode = purchaseOrderSubmitted.ProductCode;
+            state.Quantity = purchaseOrderSubmitted.Quantity;
+
+            Publish(purchaseOrderSubmitted);
+        }
+
+        private void Apply(PurchaseOrderApproved purchaseOrderApproved)
+        {
+            state.Status = PurchaseOrderStatus.Approved;
+
+            Publish(purchaseOrderApproved);
+        }
+
+        private void Apply(PurchaseOrderDeclined purchaseOrderDeclined)
+        {
             state.Status = PurchaseOrderStatus.Declined;
 
-            Publish(new PurchaseOrderDeclined { Id = state.Id, Reason = reason });
+            Publish(purchaseOrderDeclined);
         }
 
         private void Publish(Event e)
