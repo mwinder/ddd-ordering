@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Routing;
@@ -18,6 +20,11 @@ namespace Ordering.Api.Controllers
         public PurchaseOrderController(IPurchaseOrderRepository purchaseOrderRepository)
         {
             _purchaseOrderRepository = purchaseOrderRepository;
+        }
+
+        public IEnumerable<PurchaseOrder> Get()
+        {
+            return _purchaseOrderRepository.GetAll().Select(a => Map(a.GetState(), Url));
         }
 
         public PurchaseOrder Get(int id)

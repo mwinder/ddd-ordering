@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ordering.Api.Domain
 {
@@ -114,6 +115,7 @@ namespace Ordering.Api.Domain
     public interface IPurchaseOrderRepository
     {
         PurchaseOrderAggregate GetById(int id);
+        IEnumerable<PurchaseOrderAggregate> GetAll();
         PurchaseOrderAggregate Create(int id);
         void Save(PurchaseOrderAggregate purchaseOrder);
     }
@@ -151,6 +153,11 @@ namespace Ordering.Api.Domain
         {
             var purchaseOrderState = Store.Find(a => a.Id == id);
             return new PurchaseOrderAggregate(purchaseOrderState);
+        }
+
+        public IEnumerable<PurchaseOrderAggregate> GetAll()
+        {
+            return Store.Select(a => new PurchaseOrderAggregate(a));
         }
 
         public PurchaseOrderAggregate Create(int id)
