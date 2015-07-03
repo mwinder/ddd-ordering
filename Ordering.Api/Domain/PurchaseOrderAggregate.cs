@@ -120,15 +120,28 @@ namespace Ordering.Api.Domain
         void Save(PurchaseOrderAggregate purchaseOrder);
     }
 
-    public static class ServiceBus
+    public interface ServiceBus
     {
-        public readonly static Queue<Event> Instance = new Queue<Event>();
+        void Publish(Event @event);
+    }
+
+    public class SimpleServiceBus : ServiceBus
+    {
+        public readonly static ServiceBus Instance = new SimpleServiceBus();
+
+        private readonly Queue<Event> store = new Queue<Event>();
+
+        public void Publish(Event @event)
+        {
+            store.Enqueue(@event);
+        }
     }
 
     public class SimplePurchaseOrderRepository : IPurchaseOrderRepository
     {
+        public static readonly IPurchaseOrderRepository Instance = new SimplePurchaseOrderRepository(SimpleServiceBus.Instance);
+
         private static readonly List<PurchaseOrderState> Store = new List<PurchaseOrderState>();
-        public static readonly IPurchaseOrderRepository Instance = new SimplePurchaseOrderRepository(ServiceBus.Instance);
 
         static SimplePurchaseOrderRepository()
         {
@@ -142,9 +155,9 @@ namespace Ordering.Api.Domain
             }
         }
 
-        private readonly Queue<Event> _bus;
+        private readonly ServiceBus _bus;
 
-        private SimplePurchaseOrderRepository(Queue<Event> bus)
+        private SimplePurchaseOrderRepository(ServiceBus bus)
         {
             _bus = bus;
         }
@@ -175,7 +188,7 @@ namespace Ordering.Api.Domain
 
             foreach (var @event in purchaseOrder)
             {
-                _bus.Enqueue(@event);
+                _bus.Publish(@event);
             }
         }
     }
