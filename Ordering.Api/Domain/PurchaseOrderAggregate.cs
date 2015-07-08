@@ -92,26 +92,6 @@ namespace Ordering.Api.Domain
         Declined
     }
 
-    public class PurchaseOrderSubmitted : Event
-    {
-        public int Id { get; set; }
-        public string ProductCode { get; set; }
-        public int Quantity { get; set; }
-    }
-
-    public class PurchaseOrderApproved : Event
-    {
-        public int Id { get; set; }
-    }
-
-    public class PurchaseOrderDeclined : Event
-    {
-        public int Id { get; set; }
-        public string Reason { get; set; }
-    }
-
-    public class Event { }
-
     public interface IPurchaseOrderRepository
     {
         PurchaseOrderAggregate GetById(int id);
@@ -120,28 +100,9 @@ namespace Ordering.Api.Domain
         void Save(PurchaseOrderAggregate purchaseOrder);
     }
 
-    public interface ServiceBus
-    {
-        void Publish(Event @event);
-    }
-
-    public class SimpleServiceBus : ServiceBus
-    {
-        public readonly static ServiceBus Instance = new SimpleServiceBus();
-
-        private readonly Queue<Event> store = new Queue<Event>();
-
-        public void Publish(Event @event)
-        {
-            store.Enqueue(@event);
-        }
-    }
-
     public class SimplePurchaseOrderRepository : IPurchaseOrderRepository
     {
         public static readonly IPurchaseOrderRepository Instance = new SimplePurchaseOrderRepository(SimpleServiceBus.Instance);
-
-        private static readonly List<PurchaseOrderState> Store = new List<PurchaseOrderState>();
 
         static SimplePurchaseOrderRepository()
         {
@@ -155,6 +116,7 @@ namespace Ordering.Api.Domain
             }
         }
 
+        private static readonly List<PurchaseOrderState> Store = new List<PurchaseOrderState>();
         private readonly ServiceBus _bus;
 
         private SimplePurchaseOrderRepository(ServiceBus bus)
