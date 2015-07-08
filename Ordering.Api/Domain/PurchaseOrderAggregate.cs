@@ -77,9 +77,19 @@ namespace Ordering.Api.Domain
         }
     }
 
+    public class PurchaseOrderId : Identity<int>
+    {
+        private PurchaseOrderId(int id) : base(id) { }
+
+        public static implicit operator PurchaseOrderId(int identity)
+        {
+            return new PurchaseOrderId(identity);
+        }
+    }
+
     public class PurchaseOrderState
     {
-        public int Id { get; set; }
+        public PurchaseOrderId Id { get; set; }
         public PurchaseOrderStatus Status { get; set; }
         public string ProductCode { get; set; }
         public int Quantity { get; set; }

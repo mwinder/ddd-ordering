@@ -2,12 +2,6 @@ using System;
 
 namespace Ordering.Api.Domain
 {
-    public class OrderId : Identity<int>
-    {
-        public OrderId() : base(0) { }
-        public OrderId(int id) : base(id) { }
-    }
-
     public abstract class Identity<T> : IEquatable<Identity<T>>
     {
         protected Identity(T id)
@@ -17,11 +11,26 @@ namespace Ordering.Api.Domain
 
         public T Id { get; private set; }
 
-        public bool Equals(Identity<T> id)
+        public static bool operator ==(Identity<T> a, Identity<T> b)
         {
-            if (ReferenceEquals(this, id)) return true;
-            if (ReferenceEquals(null, id)) return false;
-            return Id.Equals(id.Id);
+            if (ReferenceEquals(null, a))
+            {
+                return ReferenceEquals(null, b);
+            }
+
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(Identity<T> a, Identity<T> b)
+        {
+            return !(a == b);
+        }
+
+        public bool Equals(Identity<T> other)
+        {
+            if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(null, other)) return false;
+            return Id.Equals(other.Id);
         }
 
         public override bool Equals(object other)
@@ -37,6 +46,11 @@ namespace Ordering.Api.Domain
         public override string ToString()
         {
             return GetType().Name + " [Id=" + Id + "]";
+        }
+
+        public static implicit operator T(Identity<T> identity)
+        {
+            return identity.Id;
         }
     }
 }
