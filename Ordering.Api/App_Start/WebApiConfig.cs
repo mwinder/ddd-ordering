@@ -7,14 +7,11 @@ namespace Ordering.Api
     {
         public static void RegisterApi(this HttpConfiguration config)
         {
-            // Web API configuration and services
-
-            // Web API routes
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
+                routeTemplate: "{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
 

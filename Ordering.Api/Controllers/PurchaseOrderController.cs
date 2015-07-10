@@ -9,7 +9,7 @@ using Ordering.Api.Models;
 
 namespace Ordering.Api.Controllers
 {
-    [RoutePrefix("api/PurchaseOrder")]
+    [RoutePrefix("PurchaseOrder")]
     public class PurchaseOrderController : ApiController
     {
         private readonly IPurchaseOrderRepository _purchaseOrderRepository;
