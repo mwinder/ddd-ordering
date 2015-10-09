@@ -112,7 +112,7 @@ namespace Ordering.Api.Domain
 
     public class SimplePurchaseOrderRepository : IPurchaseOrderRepository
     {
-        public static readonly IPurchaseOrderRepository Instance = new SimplePurchaseOrderRepository(SimpleServiceBus.Instance);
+        public static readonly IPurchaseOrderRepository Instance = new SimplePurchaseOrderRepository(NServiceBusServiceBus.Instance);
 
         static SimplePurchaseOrderRepository()
         {

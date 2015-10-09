@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NServiceBus;
 
 namespace Ordering.Api.Domain
 {
@@ -30,6 +31,27 @@ namespace Ordering.Api.Domain
             {
                 subscriber.OnNext(message);
             }
+        }
+    }
+
+    public class NServiceBusServiceBus : ServiceBus
+    {
+        public static ServiceBus Instance;
+
+        private readonly IBus _bus;
+
+        public NServiceBusServiceBus(IBus bus)
+        {
+            _bus = bus;
+        }
+
+        public void Publish<T>(T message)
+        {
+            _bus.Publish(message);
+        }
+
+        public void Subscribe<T>(IObserver<T> observer)
+        {
         }
     }
 }

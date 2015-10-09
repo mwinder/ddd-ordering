@@ -3,3 +3,4 @@ obj/
 packages/
 *.user
 *.suo
+Ordering.Api/App_Data/*

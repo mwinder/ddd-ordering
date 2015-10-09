@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Http;
+using NServiceBus;
 using Ordering.Api.Domain;
 using Owin;
 using Serilog;
@@ -22,6 +23,16 @@ namespace Ordering.Api
             });
 
             Log.Logger = loggingConfiguration.CreateLogger();
+            
+            var busConfiguration = new BusConfiguration();
+            busConfiguration.DiscardFailedMessagesInsteadOfSendingToErrorQueue();
+            busConfiguration.UseTransport<AzureServiceBusTransport>();
+                //.ConnectionString("Endpoint=sb://mwinder.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=QKnv9shDQGRtWdsxfPtKnhWlgiOv1IhlHVGsAH5H8aM=");
+            busConfiguration.UsePersistence<AzureStoragePersistence>();
+            busConfiguration.EndpointName("ordering");
+            busConfiguration.Conventions()
+                .DefiningEventsAs(a => a.IsSubclassOf(typeof(Event)));
+            NServiceBusServiceBus.Instance = new NServiceBusServiceBus(Bus.Create(busConfiguration).Start());
 
             SimpleServiceBus.Instance.Subscribe(new EventLog());
 
