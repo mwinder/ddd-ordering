@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordering.Api", "Ordering.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Api", "Authentication.Api\Authentication.Api.csproj", "{6E6777D6-184E-459C-882F-A9FB23312FA2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClaimsUsage", "ClaimsUsage\ClaimsUsage.csproj", "{0899C959-DFD4-4D0B-B19A-83D7D947669D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6E6777D6-184E-459C-882F-A9FB23312FA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E6777D6-184E-459C-882F-A9FB23312FA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E6777D6-184E-459C-882F-A9FB23312FA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0899C959-DFD4-4D0B-B19A-83D7D947669D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0899C959-DFD4-4D0B-B19A-83D7D947669D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0899C959-DFD4-4D0B-B19A-83D7D947669D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0899C959-DFD4-4D0B-B19A-83D7D947669D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
